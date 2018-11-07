@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 开启注解扫描 -->
+    <context:component-scan base-package="com.itheima.web"/>
+
+    <!-- 开启SpringMVC框架注解的支持 -->
+    <mvc:annotation-driven />
+
+
+
+    <bean id="daoFactory" class="com.itheima.factory.DaoFactory">
+        <constructor-arg name="daoClass" value="com.itheima.dao.IAccountDao"/>
+    </bean>
+
+    <bean id="accountDao" factory-bean="daoFactory" factory-method="createDao"></bean>
+
+    <bean id="accountService1" class="com.itheima.service.impl.AccountServiceImpl" >
+        <property name="iAccountDao" ref="accountDao"/>
+    </bean>
+
+
+    <mvc:resources mapping="/js/**" location="/js/"/>
+
+</beans>
